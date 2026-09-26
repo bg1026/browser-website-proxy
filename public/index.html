@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Website Proxy</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <p class="eyebrow">Allow-all proxy</p>
+        <h1>Browser Website Proxy</h1>
+      </header>
+
+      <main class="layout">
+        <div class="toolbar">
+          <input id="urlInput" type="text" value="https://example.com" placeholder="https://example.com" />
+          <button id="loadButton">Load Site</button>
+        </div>
+
+        <div class="controls">
+          <button id="backButton" type="button" class="secondary">Back</button>
+          <button id="forwardButton" type="button" class="secondary">Forward</button>
+          <button id="refreshButton" type="button" class="secondary">Refresh</button>
+          <button id="clearButton" type="button" class="secondary danger">Clear</button>
+        </div>
+
+        <div id="status" class="status">Ready</div>
+
+        <div class="browser-shell">
+          <iframe id="previewFrame" title="Proxied website preview" srcdoc="<html><body style='font-family:sans-serif;padding:24px;color:#222'>Loading...</body></html>"></iframe>
+        </div>
+      </main>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
+public/styles.css
+CSS
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0f172a;
+  --panel: rgba(15, 23, 42, 0.9);
+  --panel-border: rgba(148, 163, 184, 0.2);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --button: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --button-secondary: rgba(148, 163, 184, 0.12);
+  --danger: #ef4444;
+  --success: rgba(34, 197, 94, 0.16);
+  --error: rgba(239, 68, 68, 0.14);
+  --loading: rgba(59, 130, 246, 0.14);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, var(--bg), #111827);
+  color: var(--text);
+}
+
+.app-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 18px 40px;
+}
+
+.topbar {
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.layout {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.45);
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  color: white;
+  font-size: 16px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background: var(--button);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+button:hover {
+  opacity: 0.96;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.secondary {
+  background: var(--button-secondary);
+  border: 1px solid var(--panel-border);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.status {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: var(--success);
+  color: #dcfce7;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.status.loading {
+  background: var(--loading);
+  color: #dbeafe;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+.status.error {
+  background: var(--error);
+  color: #fecaca;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.browser-shell {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  min-height: 75vh;
+}
+
+iframe {
+  width: 100%;
+  min-height: 75vh;
+  border: none;
+  display: block;
+  background: white;
+}
+
+@media (max-width: 640px) {
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
